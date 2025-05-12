@@ -4,21 +4,21 @@
 
 Primero, el colaborador debe clonar el repositorio desde GitHub:
 
-git clone https://github.com/tuusuario/timeslice.git
-cd timeslice
+    git clone https://github.com/tuusuario/timeslice.git
+    cd timeslice
 
 ## 2. Instalar Node.js y npm:
 
 El colaborador debe tener instalado Node.js y npm. Puede verificar si ya los tiene ejecutando:
 
-node -v
-npm -v
+    node -v
+    npm -v
 
 Si no están instalados:
 
-    Descargarlos desde nodejs.org.
+Descargarlos desde nodejs.org.
 
-    En WSL (si está usando Linux en Windows):
+En WSL (si está usando Linux en Windows):
 
     sudo apt update
     sudo apt install nodejs npm
@@ -27,11 +27,11 @@ Si no están instalados:
 
 Ejecutar el siguiente comando en la raíz del proyecto para instalar las dependencias:
 
-npm install
+    npm install
 
 Esto descargará Electron y cualquier otra dependencia que tengas en el archivo package.json.
 ## 4. Ejecutar el Proyecto:
 
 Para iniciar la aplicación, el colaborador puede usar el siguiente comando:
 
-npm start
+    npm start
