@@ -20,8 +20,7 @@ Descargarlos desde nodejs.org.
 
 En WSL (si está usando Linux en Windows):
 
-    sudo apt update
-    sudo apt install nodejs npm
+    no uses WSL 
 
 ## 3. Instalar Electron:
 
