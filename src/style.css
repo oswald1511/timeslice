@@ -1,7 +1,16 @@
 body {
     background-color: #c3c5b9;
-    font-family: Arial, sans-serif;
+    font-family: JetBrains Mono, monospace;
     text-align: center;
     color: rgb(32, 31, 31);
     font-size: 2vw
+}
+
+#calendario {
+    border-collapse: collapse;
+    width: 100%;
+    margin: auto;
+    table-layout: center;
+    border-spacing: 0;
+    border: 1px solid #51524f;
 }
