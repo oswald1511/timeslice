@@ -12,10 +12,20 @@ const diasEnELMes = dayjs().daysInMonth();
 
 const tabla = document.getElementById('calendario');
 
+const diaActual = dayjs().date();
+
+console.log("un video mas mi gente");   
+
 for (let i = 1; i <= diasEnELMes; i++) {
     const fila = tabla.insertRow();
     for(let j = 1; j <= 7; j++) {
-    fila.insertCell().textContent = i;
+        if (i === diaActual) {
+            fila.insertCell().textContent = i;
+            fila.insertCell().textContent = "Hoy";
+        }
+        else{
+            fila.insertCell().textContent = i;
+        }
     i++;
         if (i > diasEnELMes) {
             break;

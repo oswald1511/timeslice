@@ -8,9 +8,8 @@ body {
 
 #calendario {
     border-collapse: collapse;
-    width: 100%;
+    width: 90%;
     margin: auto;
     table-layout: center;
-    border-spacing: 0;
-    border: 1px solid #51524f;
+
 }

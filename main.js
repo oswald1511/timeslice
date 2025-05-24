@@ -6,11 +6,14 @@ function createWindow() {
         height: 600,
         webPreferences: {
             nodeIntegration: true,
-            contextIsolation: false, // Permitir el uso de Node.js en el renderizador
+            contextIsolation: false, // ⚠️ Esto desactiva el aislamiento, solo si sabés lo que hacés
         },
     });
 
     win.loadFile('src/index.html');
+
+    // ✅ Abrir DevTools aquí
+    win.webContents.openDevTools();
 }
 
 app.whenReady().then(createWindow);
