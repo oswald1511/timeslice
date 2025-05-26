@@ -11,5 +11,10 @@ body {
     width: 90%;
     margin: auto;
     table-layout: center;
+}
 
+#calendario td,
+#calendario th {
+    text-align: center;
+    vertical-align: middle;
 }

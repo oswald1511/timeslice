@@ -12,8 +12,6 @@ function createWindow() {
 
     win.loadFile('src/index.html');
 
-    // ✅ Abrir DevTools aquí
-    win.webContents.openDevTools();
 }
 
 app.whenReady().then(createWindow);

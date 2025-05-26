@@ -13,24 +13,19 @@ const diasEnELMes = dayjs().daysInMonth();
 const tabla = document.getElementById('calendario');
 
 const diaActual = dayjs().date();
+let fila = tabla.insertRow();
 
-console.log("un video mas mi gente");   
+for (let i = 0; i < diasEnELMes; i++) {
+    if (i % 7 === 0){
+        fila = tabla.insertRow();
+    }
+    const celda = fila.insertCell();
+    celda.textContent = i + 1;
 
-for (let i = 1; i <= diasEnELMes; i++) {
-    const fila = tabla.insertRow();
-    for(let j = 1; j <= 7; j++) {
-        if (i === diaActual) {
-            fila.insertCell().textContent = i;
-            fila.insertCell().textContent = "Hoy";
-        }
-        else{
-            fila.insertCell().textContent = i;
-        }
-    i++;
-        if (i > diasEnELMes) {
-            break;
-        }
+    if (i + 1 === diaActual) {
+        celda.style.backgroundColor = "lightblue"; // marcar el día actual    
     }
 }
+
 
 
