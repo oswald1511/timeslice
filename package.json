@@ -24,8 +24,8 @@
     "electron": "^36.2.0"
   },
   "dependencies": {
+    "bootstrap": "^5.3.6",
     "dayjs": "^1.11.13",
-    "electron-squirrel-startup": "^1.0.1",
-    "materialize-css": "^1.0.0"
+    "electron-squirrel-startup": "^1.0.1"
   }
 }
