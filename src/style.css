@@ -9,14 +9,10 @@ body {
 }
 
 #calendario {
-    border-collapse: collapse;
-    width: 90%;
-    margin: auto;
-    table-layout: center;
-}
+    width: 60%;
+    margin: 0 auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
 
-#calendario td,
-#calendario th {
-    text-align: center;
-    vertical-align: middle;
 }
