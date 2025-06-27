@@ -14,7 +14,6 @@ const tabla = document.getElementById('calendario');
 const diaActual = dayjs().date();
 
 let  primerDiaDelMes = ((dayjs().startOf('month').day()));
-console.log(primerDiaDelMes);
 
 if (primerDiaDelMes == 0 ){
     primerDiaDelMes = 7;
@@ -38,6 +37,7 @@ const diasEnELMes = dayjs().daysInMonth();
 
 tabla.appendChild(fila);
 
+
 for (let j = 0; j < diasEnELMes; j++) {
     if (i % 7 === 0){
         fila = document.createElement('div');
@@ -45,9 +45,9 @@ for (let j = 0; j < diasEnELMes; j++) {
         tabla.appendChild(fila);
     }
     const celda = document.createElement('div');
-    celda.className = 'col';
+    celda.className = 'col celda-clickeable';
     celda.textContent = j + 1;
-
+    
     if (j + 1 === diaActual) {
         celda.style.backgroundColor = '#697565'; // marcar el día actual    
     }

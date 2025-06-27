@@ -16,3 +16,13 @@ body {
     flex-direction: column;
 
 }
+
+.celda-clickeable {
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.celda-clickeable:hover {
+    background: #444;
+    filter: brightness(0.7);
+}
