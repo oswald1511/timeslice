@@ -5,15 +5,14 @@ function createWindow() {
     const win = new BrowserWindow({
         width: 800,
         height: 600,
-        icon: path.join(__dirname, 'src', 'assets', 'garrapatas.png'), // <-- aquí
+        icon: path.join(__dirname, 'src', 'assets', 'garrapatas.png'),
         webPreferences: {
             nodeIntegration: true,
-            contextIsolation: false, // ⚠️ Esto desactiva el aislamiento, solo si sabés lo que hacés
+            contextIsolation: false,
         },
     });
 
     win.loadFile('src/index.html');
-
 }
 
 app.whenReady().then(createWindow);
