@@ -7,19 +7,26 @@
 </head>
 <body>
     <div class="container text-center">
-        <p>Timeslice</p>
-        <h2 id="fecha"></h2>
-        <div id="calendario">
-            <div class="row">
-                <div class="col"><p class="fw-bold">L</p></div>
-                <div class="col"><p class="fw-bold">M</p></div>
-                <div class="col"><p class="fw-bold">X</p></div>
-                <div class="col"><p class="fw-bold">J</p></div>
-                <div class="col"><p class="fw-bold">V</p></div>
-                <div class="col"><p class="fw-bold">S</p></div>
-                <div class="col"><p class="fw-bold">D</p></div>
+        <p id="fechaCompleta"></p>
+        <div class="row">
+            <div class="col">
+                <button id="prev"><</button>
             </div>
+            <div class="col"><h2 id="fecha"></h2></div>
+            <div class="col">
+                <button id="next">></button>
+            </div>    
         </div>
+        <div class="row">
+            <div class="col"><p class="fw-bold">L</p></div>
+            <div class="col"><p class="fw-bold">M</p></div>
+            <div class="col"><p class="fw-bold">X</p></div>
+            <div class="col"><p class="fw-bold">J</p></div>
+            <div class="col"><p class="fw-bold">V</p></div>
+            <div class="col"><p class="fw-bold">S</p></div>
+            <div class="col"><p class="fw-bold">D</p></div>
+        </div>
+            <div id="calendario"></div>
     </div>
         <script src="./renderer.js"></script>
 </body>
