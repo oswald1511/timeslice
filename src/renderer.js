@@ -8,24 +8,43 @@ const fechaActual = document.getElementById('fechaCompleta');
 fechaActual.textContent = dayjs().format('dddd, D [de] MMMM [de] YYYY');
 
 let mesEnPantalla =  dayjs().month();
-crearCalendario(mesEnPantalla);
+let anioEnPantalla = dayjs().year();
+crearCalendario(mesEnPantalla, anioEnPantalla);
 
-let retrocederMes = document.getElementById('prev');
-let avanzarMes = document.getElementById('next');
+let retrocederMes = document.getElementById('prev-mes');
+let avanzarMes = document.getElementById('next-mes');
+
+let retrocederAnio = document.getElementById('prev-anio');
+let avanzarAnio = document.getElementById('next-anio');
+
+retrocederAnio.onclick = function(){
+    borrarCalendario();
+    crearCalendario(mesEnPantalla - 1, anioEnPantalla - 1);
+}
+
+avanzarAnio.onclick = function(){
+    borrarCalendario();
+    crearCalendario(mesEnPantalla - 1, anioEnPantalla + 1);
+}
 
 retrocederMes.onclick = function(){
     borrarCalendario();
-    console.log(mesEnPantalla);
     mesEnPantalla--;
-    crearCalendario(mesEnPantalla -1);
+    if(mesEnPantalla == 0){
+        crearCalendario(mesEnPantalla -1, anioEnPantalla - 1);
+    }else{
+        crearCalendario(mesEnPantalla -1, anioEnPantalla);
+    }
 }
 
 avanzarMes.onclick = function(){
     borrarCalendario();
-    console.log(mesEnPantalla);
     mesEnPantalla++;
-    crearCalendario(mesEnPantalla -1);
-
+    if(mesEnPantalla == 13){
+        crearCalendario(mesEnPantalla -1, anioEnPantalla + 1);
+    }else{
+        crearCalendario(mesEnPantalla -1, anioEnPantalla);
+    }
 }
 
 function borrarCalendario() {
@@ -33,9 +52,9 @@ function borrarCalendario() {
     tabla.innerHTML = '';
 }
 
-function casillerosVaciosAntesDePrimerDia(mes){
+function casillerosVaciosAntesDePrimerDia(mes, anio){
     
-    let  primerDiaDelMes = dayjs().month(mes).date(1).day();
+    let  primerDiaDelMes = dayjs().year(anio).month(mes).date(1).day();
     
     if (primerDiaDelMes === 0 ){
         primerDiaDelMes = 7;
@@ -55,11 +74,12 @@ function casillerosVaciosAntesDePrimerDia(mes){
     return {fila, i};
 }
 
-function ponerDiasDelMes(mes, celdasDelMes, fila){
+function ponerDiasDelMes(mes, anio, celdasDelMes, fila){
     
     const diaActual = dayjs().date();
     const mesActual = dayjs().month();
-    const diasEnELMes = dayjs().month(mes).daysInMonth();
+    const anioActual = dayjs().year();
+    const diasEnELMes = dayjs().year(anio).month(mes).daysInMonth();
     tabla.appendChild(fila);
     
     for (let j = 0; j < diasEnELMes; j++) {
@@ -72,7 +92,7 @@ function ponerDiasDelMes(mes, celdasDelMes, fila){
         celda.className = 'col celda-clickeable';
         celda.textContent = j + 1;
         
-        if (j + 1 === diaActual && mes == mesActual) {
+        if (j + 1 === diaActual && mes == mesActual && anio == anioActual) {
             celda.style.backgroundColor = '#697565'; // marcar el día actual    
         }
         fila.appendChild(celda);
@@ -96,15 +116,21 @@ function casillerosVaciosUltimaFila(celdasEnUltimaFila, ultimaFila){
     }
 }
 
+function ponerAnio(anio){
+    anioEnPantalla = anio;
+    document.getElementById('anioMostrado').textContent = anioEnPantalla;
+}
+
 function ponerMes(mes){
     let mesMostrado = dayjs().month(mes).format('MMMM');
     mesEnPantalla = dayjs().month(mes).format('M');
-    document.getElementById('fecha').textContent = mesMostrado;
+    document.getElementById('mesMostrado').textContent = mesMostrado;
 }
 
-function crearCalendario(mes){
+function crearCalendario(mes, anio){
+    ponerAnio(anio);
     ponerMes(mes);
-    const { fila, i } = casillerosVaciosAntesDePrimerDia(mes);
-    const { celdasDelMes, ultimaFila } = ponerDiasDelMes(mes, i, fila);
+    const { fila, i } = casillerosVaciosAntesDePrimerDia(mes, anio);
+    const { celdasDelMes, ultimaFila } = ponerDiasDelMes(mes, anio, i, fila);
     casillerosVaciosUltimaFila(celdasDelMes, ultimaFila);
 }
