@@ -8,23 +8,13 @@ body {
     font-size: 2vw
 }
 
-#calendario {
-    width: 60%;
-    margin: 0 auto;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-
-}
-
+#calendario,
 #calendario-dias {
-    width: 60%;
+    width: 100%;
+    max-width: 900px;
     margin: 0 auto;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-
 }
+
 .celda-clickeable {
     cursor: pointer;
     transition: background 0.2s;
@@ -33,4 +23,8 @@ body {
 .celda-clickeable:hover {
     filter: brightness(0.7);
     transition: filter 0.2s;
+}
+
+.container-calendario {
+    padding: 0 20%;
 }
