@@ -17,6 +17,20 @@ let avanzarMes = document.getElementById('next-mes');
 let retrocederAnio = document.getElementById('prev-anio');
 let avanzarAnio = document.getElementById('next-anio');
 
+const sidebar = document.getElementById('sidebar');
+const sidebarContent = document.getElementById('sidebar-content');
+const closeSidebar = document.getElementById('closeSidebar');
+
+closeSidebar.addEventListener('click', function() {
+    sidebar.classList.remove('active');
+});
+
+document.addEventListener('click', function() {
+    if (sidebar.classList.contains('active')) {
+        sidebar.classList.remove('active');
+    }
+});
+
 retrocederAnio.onclick = function(){
     borrarCalendario();
     crearCalendario(mesEnPantalla - 1, anioEnPantalla - 1);
@@ -91,7 +105,17 @@ function ponerDiasDelMes(mes, anio, celdasDelMes, fila){
         const celda = document.createElement('div');
         celda.className = 'col tocable';
         celda.textContent = j + 1;
-        
+
+        celda.addEventListener('click', function(event) {
+            event.stopPropagation(); 
+            if(sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            } else {
+                sidebarContent.innerHTML = `<h2>Día ${j + 1}</h2><p>Contenido para el día ${j + 1}/${mes + 1}/${anio}</p>`;
+                sidebar.classList.add('active');
+            }
+        });
+
         if (j + 1 === diaActual && mes == mesActual && anio == anioActual) {
             celda.style.backgroundColor = '#697565'; // marcar el día actual    
         }

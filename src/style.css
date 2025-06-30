@@ -57,3 +57,33 @@ body {
     display: inline-block;
     white-space: nowrap;
 }
+
+
+#sidebar {
+    position: fixed;
+    top: 0;
+    left: -320px; /* Oculto por defecto */
+    width: 320px;
+    height: 100%;
+    background: #222;
+    color: #fff;
+    transition: left 0.3s;
+    z-index: 1000;
+    padding: 1em;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.4);
+    overflow-y: auto;
+    border-radius: 0 8px 8px 0;
+}
+#sidebar.active {
+    left: 0;
+}
+#closeSidebar {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5em;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
