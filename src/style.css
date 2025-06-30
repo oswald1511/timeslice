@@ -15,12 +15,12 @@ body {
     margin: 0 auto;
 }
 
-.celda-clickeable {
+.tocable {
     cursor: pointer;
     transition: background 0.2s;
 }
 
-.celda-clickeable:hover {
+.tocable:hover {
     filter: brightness(0.7);
     transition: filter 0.2s;
 }
@@ -29,6 +29,31 @@ body {
     padding: 0 20%;
 }
 
+.fila-fija {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
+    /* Espacio entre elementos */
+    margin-bottom: 0.5em;
+}
+
 .flecha {
+    min-width: 2em;
+    /* ancho fijo para las flechas */
+    text-align: center;
+    user-select: none;
     cursor: pointer;
+    transition: filter 0.2s;
+}
+
+.texto-central {
+    min-width: 6em;
+    /* ancho mínimo para el texto, ajusta según tu necesidad */
+    text-align: center;
+    font-size: 1.32em;
+    font-family: inherit;
+    font-weight: bold;
+    display: inline-block;
+    white-space: nowrap;
 }

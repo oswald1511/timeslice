@@ -89,7 +89,7 @@ function ponerDiasDelMes(mes, anio, celdasDelMes, fila){
             tabla.appendChild(fila);
         }
         const celda = document.createElement('div');
-        celda.className = 'col celda-clickeable';
+        celda.className = 'col tocable';
         celda.textContent = j + 1;
         
         if (j + 1 === diaActual && mes == mesActual && anio == anioActual) {
