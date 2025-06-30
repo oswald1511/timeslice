@@ -28,3 +28,7 @@ body {
 .container-calendario {
     padding: 0 20%;
 }
+
+.flecha {
+    cursor: pointer;
+}
