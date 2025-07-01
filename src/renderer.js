@@ -18,15 +18,15 @@ let retrocederAnio = document.getElementById('prev-anio');
 let avanzarAnio = document.getElementById('next-anio');
 
 const sidebar = document.getElementById('sidebar');
-const sidebarContent = document.getElementById('sidebar-content');
+let sidebarContent = document.getElementById('sidebar-content');
 const closeSidebar = document.getElementById('closeSidebar');
 
 closeSidebar.addEventListener('click', function() {
     sidebar.classList.remove('active');
 });
 
-document.addEventListener('click', function() {
-    if (sidebar.classList.contains('active')) {
+document.addEventListener('click', function(event) {
+    if (sidebar.classList.contains('active') && !sidebar.contains(event.target)) {
         sidebar.classList.remove('active');
     }
 });
@@ -89,7 +89,6 @@ function casillerosVaciosAntesDePrimerDia(mes, anio){
 }
 
 function ponerDiasDelMes(mes, anio, celdasDelMes, fila){
-    
     const diaActual = dayjs().date();
     const mesActual = dayjs().month();
     const anioActual = dayjs().year();
@@ -108,12 +107,9 @@ function ponerDiasDelMes(mes, anio, celdasDelMes, fila){
 
         celda.addEventListener('click', function(event) {
             event.stopPropagation(); 
-            if(sidebar.classList.contains('active')) {
-                sidebar.classList.remove('active');
-            } else {
-                sidebarContent.innerHTML = `<h2>Día ${j + 1}</h2><p>Contenido para el día ${j + 1}/${mes + 1}/${anio}</p>`;
-                sidebar.classList.add('active');
-            }
+            sidebarContent.innerHTML = `<h2>Día ${j + 1}</h2>`;
+            sidebar.classList.add('active');
+            
         });
 
         if (j + 1 === diaActual && mes == mesActual && anio == anioActual) {
@@ -125,7 +121,6 @@ function ponerDiasDelMes(mes, anio, celdasDelMes, fila){
     return {celdasDelMes,ultimaFila : fila} ;
 
 }
-
 
 function casillerosVaciosUltimaFila(celdasEnUltimaFila, ultimaFila){
     // Si la última fila no tiene 7 columnas, agrega celdas vacías
