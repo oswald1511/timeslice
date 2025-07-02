@@ -1,0 +1,6 @@
+const { contextBridge, ipcRenderer } = require('electron');
+
+contextBridge.exposeInMainWorld('electronAPI', {
+  getAllEvents: () => ipcRenderer.invoke('event:getAll'),
+  addEvent: (data) => ipcRenderer.invoke('event:add', data)
+});

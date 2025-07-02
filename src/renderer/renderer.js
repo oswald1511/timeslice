@@ -1,7 +1,4 @@
-const dayjs = require('dayjs');
-const localeEs = require('dayjs/locale/es');  // Importa el idioma español
-
-dayjs.locale(localeEs);
+dayjs.locale('es');
 
 const tabla = document.getElementById('calendario');
 const fechaActual = document.getElementById('fechaCompleta');
