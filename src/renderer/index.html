@@ -10,9 +10,11 @@
     <div id="sidebar">
         <button id="closeSidebar">&times;</button>
         <div id="sidebar-content"></div>
-        <input type="text" class="titulo" placeholder="Agregar título">
-    </div>  
-    <div class="container text-center">
+        <textarea class="titulo" placeholder="Título" id="titulo-evento"></textarea>
+        <textarea class="titulo" placeholder="Descripcion" id="descripcion-evento"></textarea>
+        <button id="guardarTitulo" style="display:none;">Guardar</button>
+    </div>
+    <div class="container text-center" id="contenedorCentral">
         <p id="fechaCompleta"></p>
         <div class="fila-fija">
             <span id="prev-anio" class="tocable flecha">&lt;</span>

@@ -1,6 +1,9 @@
-// src/main/ipc.js
 const { ipcMain } = require('electron');
-const { addEvent, getEvents } = require('./database');
+const { addEvent, getEvents, updateEvent } = require('./database');
+
+ipcMain.handle('event:update', async (event, data) => {
+  return await updateEvent(data);
+});
 
 // IPC para insertar evento
 ipcMain.handle('event:add', async (e, data) => {

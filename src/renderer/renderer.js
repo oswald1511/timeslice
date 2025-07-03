@@ -8,23 +8,28 @@ let mesEnPantalla =  dayjs().month();
 let anioEnPantalla = dayjs().year();
 crearCalendario(mesEnPantalla, anioEnPantalla);
 
+let fechaSeleccionada;
+
 let retrocederMes = document.getElementById('prev-mes');
 let avanzarMes = document.getElementById('next-mes');
 
 let retrocederAnio = document.getElementById('prev-anio');
 let avanzarAnio = document.getElementById('next-anio');
 
+const contenedorCentral = document.getElementById('contenedorCentral');
 const sidebar = document.getElementById('sidebar');
 let sidebarContent = document.getElementById('sidebar-content');
 const closeSidebar = document.getElementById('closeSidebar');
 
 closeSidebar.addEventListener('click', function() {
     sidebar.classList.remove('active');
+    contenedorCentral.style.transform = '';
 });
 
 document.addEventListener('click', function(event) {
     if (sidebar.classList.contains('active') && !sidebar.contains(event.target)) {
         sidebar.classList.remove('active');
+        contenedorCentral.style.transform = '';
     }
 });
 
@@ -104,9 +109,10 @@ function ponerDiasDelMes(mes, anio, celdasDelMes, fila){
 
         celda.addEventListener('click', function(event) {
             event.stopPropagation(); 
+            fechaSeleccionada = dayjs().year(anio).month(mes).date(j + 1).format('DD-MM-YYYY');
             sidebarContent.innerHTML = `<h2>Día ${j + 1}</h2>`;
             sidebar.classList.add('active');
-            
+            contenedorCentral.style.transform = 'translateX(6%)';
         });
 
         if (j + 1 === diaActual && mes == mesActual && anio == anioActual) {
@@ -149,4 +155,26 @@ function crearCalendario(mes, anio){
     const { fila, i } = casillerosVaciosAntesDePrimerDia(mes, anio);
     const { celdasDelMes, ultimaFila } = ponerDiasDelMes(mes, anio, i, fila);
     casillerosVaciosUltimaFila(celdasDelMes, ultimaFila);
+}
+
+const tituloInput = document.getElementById('titulo-evento');
+const guardarBtn = document.getElementById('guardarTitulo');
+
+function mostrarBotonGuardar() {
+    guardarBtn.style.display = tituloInput.value.trim().length > 0 ? 'block' : 'none';
+}
+
+tituloInput.addEventListener('input', mostrarBotonGuardar);
+
+guardarBtn.addEventListener('click', guardarEvento);
+
+function guardarEvento(){
+
+    const titulo = document.getElementById('titulo-evento').value;
+    const descripcion = document.getElementById('descripcion-evento').value;
+    
+    window.electronAPI.addEvent({ titulo, fecha: fechaSeleccionada, descripcion});
+
+    document.getElementById('titulo-evento').value = '';
+    document.getElementById('descripcion-evento').value = '';
 }
