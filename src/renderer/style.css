@@ -77,15 +77,28 @@ body {
     left: 0;
 }
 
+#sidebar h2 {
+    font-size: 1.5em;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1em;
+}
+
+#sidebar-content {
+    flex: 1;
+}
+
 #closeSidebar {
     background: none;
     border: none;
     color: white;
     font-size: 1.5em;
     cursor: pointer;
-    position: absolute;
-    top: 10px;
-    right: 10px;
+
 }
 
 .titulo {
