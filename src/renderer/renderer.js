@@ -113,6 +113,7 @@ function ponerDiasDelMes(mes, anio, celdasDelMes, fila){
             sidebarContent.innerHTML = `<h2>Día ${j + 1}</h2>`;
             sidebar.classList.add('active');
             contenedorCentral.style.transform = 'translateX(6%)';
+            ponerContenidoEvento();
         });
 
         if (j + 1 === diaActual && mes == mesActual && anio == anioActual) {
@@ -177,4 +178,16 @@ function guardarEvento(){
 
     document.getElementById('titulo-evento').value = '';
     document.getElementById('descripcion-evento').value = '';
+}
+
+async function ponerContenidoEvento() {
+    const evento = await window.electronAPI.getEvent({ fecha: fechaSeleccionada });
+    
+    if (evento) {
+        document.getElementById('titulo-evento').value = evento.titulo;
+        document.getElementById('descripcion-evento').value = evento.descripcion || '';
+    } else {
+        document.getElementById('titulo-evento').value = '';
+        document.getElementById('descripcion-evento').value = '';
+    }
 }

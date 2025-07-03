@@ -34,18 +34,18 @@ function addEvent({ titulo, fecha, descripcion }) {
 
 function getEvents() {
   return new Promise((resolve, reject) => {
-    db.all(`SELECT * FROM events ORDER BY date ASC`, [], (err, rows) => {
+    db.all(`SELECT * FROM events ORDER BY fecha ASC`, [], (err, rows) => {
       if (err) reject(err);
       else resolve(rows);
     });
   });
 }
 
-function updateEvent({titulo, fecha, descripcion }) {
+function updateEvent({titulo, descripcion, fecha }) {
   return new Promise((resolve, reject) => {
     db.run(
       `UPDATE events SET titulo = ?, descripcion = ? WHERE fecha = ?`,
-      [titulo, fecha, descripcion],
+      [titulo, descripcion, fecha],
       function (err) {
         if (err) reject(err);
         else resolve(this.changes); // número de filas modificadas
@@ -54,4 +54,17 @@ function updateEvent({titulo, fecha, descripcion }) {
   });
 }
 
-module.exports = { addEvent, getEvents, updateEvent };
+function getEvent({fecha}){
+  return new Promise ((resolve, reject) => {
+    db.get(
+      'SELECT * FROM events WHERE fecha = ?',
+      [fecha],
+      (err, row) => {
+        if (err) reject(err);
+        else resolve(row);
+      }      
+    );
+  });
+}
+
+module.exports = { addEvent, getEvents, updateEvent, getEvent };
