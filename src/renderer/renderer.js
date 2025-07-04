@@ -169,20 +169,25 @@ tituloInput.addEventListener('input', mostrarBotonGuardar);
 
 guardarBtn.addEventListener('click', guardarEvento);
 
-function guardarEvento(){
+async function guardarEvento(){
 
     const titulo = document.getElementById('titulo-evento').value;
     const descripcion = document.getElementById('descripcion-evento').value;
-    
-    window.electronAPI.addEvent({ titulo, fecha: fechaSeleccionada, descripcion});
 
-    document.getElementById('titulo-evento').value = '';
-    document.getElementById('descripcion-evento').value = '';
+    const evento = await window.electronAPI.getEvent({ fecha: fechaSeleccionada });
+
+    if (evento) {
+        window.electronAPI.updateEvent({titulo, fecha: fechaSeleccionada, descripcion});
+    } else {
+        window.electronAPI.addEvent({ titulo, fecha: fechaSeleccionada, descripcion});
+    }
+    
+
 }
 
 async function ponerContenidoEvento() {
     const evento = await window.electronAPI.getEvent({ fecha: fechaSeleccionada });
-    
+
     if (evento) {
         document.getElementById('titulo-evento').value = evento.titulo;
         document.getElementById('descripcion-evento').value = evento.descripcion || '';
