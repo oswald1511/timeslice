@@ -16,6 +16,13 @@ body {
 .tocable {
     cursor: pointer;
     transition: background 0.2s;
+    border-radius: 0.4em;
+}
+
+.col {
+    aspect-ratio: 1 / 1;
+    width: auto;
+    margin: 2px;
 }
 
 .tocable:hover {
@@ -36,24 +43,36 @@ body {
     margin-bottom: 0.5em;
 }
 
-.flecha {
-    min-width: 2em;
-    /* ancho fijo para las flechas */
-    text-align: center;
-    user-select: none;
-    cursor: pointer;
-    transition: filter 0.2s;
+.fila-ano-mes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 1em;
 }
 
+.flecha {
+    font-size: 1.5em;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+}
+
+#mesMostrado {
+    width: 10ch;
+    /* Ajusta según el mes más largo, por ejemplo "septiembre" */
+    text-align: center;
+}
+
+
 .texto-central {
-    min-width: 6em;
-    /* ancho mínimo para el texto, ajusta según tu necesidad */
     text-align: center;
     font-size: 1.32em;
     font-family: inherit;
     font-weight: bold;
     display: inline-block;
     white-space: nowrap;
+    margin: 0;
 }
 
 #sidebar {
@@ -125,4 +144,12 @@ body {
 
 #contenedorCentral {
     transition: transform 0.3s ease;
+}
+
+.fila-ano-mes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
+    margin-bottom: 1em;
 }

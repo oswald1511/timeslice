@@ -12,7 +12,7 @@ db.serialize(() => {
   db.run(`
     CREATE TABLE IF NOT EXISTS events (
       fecha TEXT PRIMARY KEY,
-      titulo TEXT NOT NULL,
+      titulo TEXT,
       descripcion TEXT
     )
   `);

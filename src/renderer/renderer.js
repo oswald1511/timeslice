@@ -158,32 +158,38 @@ function crearCalendario(mes, anio){
     casillerosVaciosUltimaFila(celdasDelMes, ultimaFila);
 }
 
-const tituloInput = document.getElementById('titulo-evento');
 const guardarBtn = document.getElementById('guardarTitulo');
 
 function mostrarBotonGuardar() {
-    guardarBtn.style.display = tituloInput.value.trim().length > 0 ? 'block' : 'none';
+    const titulo = document.getElementById('titulo-evento').value.trim();
+    const descripcion = document.getElementById('descripcion-evento').value.trim();
+    // Solo muestra si hay cambios respecto al original
+    const hayCambios = (titulo !== (tituloOriginal || '').trim()) || (descripcion !== (descripcionOriginal || '').trim());
+    guardarBtn.style.display = hayCambios ? 'block' : 'none';
 }
-
-tituloInput.addEventListener('input', mostrarBotonGuardar);
-
+document.getElementById('titulo-evento').addEventListener('input', mostrarBotonGuardar);
+document.getElementById('descripcion-evento').addEventListener('input', mostrarBotonGuardar);
 guardarBtn.addEventListener('click', guardarEvento);
 
-async function guardarEvento(){
+let tituloOriginal = '';
+let descripcionOriginal = '';
 
+async function guardarEvento() {
     const titulo = document.getElementById('titulo-evento').value;
     const descripcion = document.getElementById('descripcion-evento').value;
 
     const evento = await window.electronAPI.getEvent({ fecha: fechaSeleccionada });
 
     if (evento) {
-        window.electronAPI.updateEvent({titulo, fecha: fechaSeleccionada, descripcion});
+        await window.electronAPI.updateEvent({ titulo, fecha: fechaSeleccionada, descripcion });
+        alert('Evento actualizado correctamente');
     } else {
-        window.electronAPI.addEvent({ titulo, fecha: fechaSeleccionada, descripcion});
+        await window.electronAPI.addEvent({ titulo, fecha: fechaSeleccionada, descripcion });
+        alert('Evento guardado correctamente');
     }
-    
-
 }
+
+
 
 async function ponerContenidoEvento() {
     const evento = await window.electronAPI.getEvent({ fecha: fechaSeleccionada });
@@ -191,8 +197,13 @@ async function ponerContenidoEvento() {
     if (evento) {
         document.getElementById('titulo-evento').value = evento.titulo;
         document.getElementById('descripcion-evento').value = evento.descripcion || '';
+        tituloOriginal = evento.titulo || '';
+        descripcionOriginal = evento.descripcion || '';
     } else {
         document.getElementById('titulo-evento').value = '';
         document.getElementById('descripcion-evento').value = '';
+        tituloOriginal = '';
+        descripcionOriginal = '';
     }
+    mostrarBotonGuardar();
 }
