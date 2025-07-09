@@ -35,32 +35,34 @@ document.addEventListener('click', function(event) {
 
 retrocederAnio.onclick = function(){
     borrarCalendario();
-    crearCalendario(mesEnPantalla - 1, anioEnPantalla - 1);
+    anioEnPantalla--;
+    crearCalendario(mesEnPantalla, anioEnPantalla);
 }
 
 avanzarAnio.onclick = function(){
     borrarCalendario();
-    crearCalendario(mesEnPantalla - 1, anioEnPantalla + 1);
+    anioEnPantalla++;
+    crearCalendario(mesEnPantalla, anioEnPantalla);
 }
 
 retrocederMes.onclick = function(){
     borrarCalendario();
     mesEnPantalla--;
-    if(mesEnPantalla == 0){
-        crearCalendario(mesEnPantalla -1, anioEnPantalla - 1);
-    }else{
-        crearCalendario(mesEnPantalla -1, anioEnPantalla);
+    if(mesEnPantalla < 0){
+        mesEnPantalla = 11;
+        anioEnPantalla--;
     }
+    crearCalendario(mesEnPantalla, anioEnPantalla);
 }
 
 avanzarMes.onclick = function(){
     borrarCalendario();
     mesEnPantalla++;
-    if(mesEnPantalla == 13){
-        crearCalendario(mesEnPantalla -1, anioEnPantalla + 1);
-    }else{
-        crearCalendario(mesEnPantalla -1, anioEnPantalla);
+    if(mesEnPantalla === 12){
+        mesEnPantalla = 0;
+        anioEnPantalla++;
     }
+    crearCalendario(mesEnPantalla, anioEnPantalla);
 }
 
 function borrarCalendario() {
@@ -90,7 +92,7 @@ function casillerosVaciosAntesDePrimerDia(mes, anio){
     return {fila, i};
 }
 
-function ponerDiasDelMes(mes, anio, celdasDelMes, fila){
+async function ponerDiasDelMes(mes, anio, celdasDelMes, fila){
     const diaActual = dayjs().date();
     const mesActual = dayjs().month();
     const anioActual = dayjs().year();
@@ -107,17 +109,27 @@ function ponerDiasDelMes(mes, anio, celdasDelMes, fila){
         celda.className = 'col tocable';
         celda.textContent = j + 1;
 
+        const fecha = dayjs().year(anio).month(mes).date(j + 1).format('DD-MM-YYYY');
+        const evento = await window.electronAPI.getEvent({ fecha });
+
+        if (evento && evento.color) {
+            const circulo = document.createElement('span');
+            circulo.className = 'circulo'
+            circulo.style.backgroundColor = evento.color;
+            celda.appendChild(circulo);
+        }
+
         celda.addEventListener('click', function(event) {
             event.stopPropagation(); 
             fechaSeleccionada = dayjs().year(anio).month(mes).date(j + 1).format('DD-MM-YYYY');
-            sidebarContent.innerHTML = `<h2>Día ${j + 1}</h2>`;
+            sidebarContent.innerHTML = `<h2>${j + 1}</h2>`;
             sidebar.classList.add('active');
             contenedorCentral.style.transform = 'translateX(6%)';
             ponerContenidoEvento();
         });
 
         if (j + 1 === diaActual && mes == mesActual && anio == anioActual) {
-            celda.style.backgroundColor = '#697565'; // marcar el día actual    
+            celda.style.backgroundColor = '#697565'; // marca el día actual    
         }
         fila.appendChild(celda);
         celdasDelMes++;
@@ -146,15 +158,15 @@ function ponerAnio(anio){
 
 function ponerMes(mes){
     let mesMostrado = dayjs().month(mes).format('MMMM');
-    mesEnPantalla = dayjs().month(mes).format('M');
+    mesEnPantalla = mes
     document.getElementById('mesMostrado').textContent = mesMostrado;
 }
 
-function crearCalendario(mes, anio){
+async function crearCalendario(mes, anio){
     ponerAnio(anio);
     ponerMes(mes);
     const { fila, i } = casillerosVaciosAntesDePrimerDia(mes, anio);
-    const { celdasDelMes, ultimaFila } = ponerDiasDelMes(mes, anio, i, fila);
+    const { celdasDelMes, ultimaFila } = await ponerDiasDelMes(mes, anio, i, fila);
     casillerosVaciosUltimaFila(celdasDelMes, ultimaFila);
 }
 
@@ -163,30 +175,43 @@ const guardarBtn = document.getElementById('guardarTitulo');
 function mostrarBotonGuardar() {
     const titulo = document.getElementById('titulo-evento').value.trim();
     const descripcion = document.getElementById('descripcion-evento').value.trim();
-    // Solo muestra si hay cambios respecto al original
-    const hayCambios = (titulo !== (tituloOriginal || '').trim()) || (descripcion !== (descripcionOriginal || '').trim());
+    const color = document.getElementById('color-evento').value;
+    const hayCambios =
+        (titulo !== (tituloOriginal || '').trim()) ||
+        (descripcion !== (descripcionOriginal || '').trim()) ||
+        (color !== (colorOriginal || '#000000'));
     guardarBtn.style.display = hayCambios ? 'block' : 'none';
 }
+document.getElementById('color-evento').addEventListener('input', mostrarBotonGuardar);
 document.getElementById('titulo-evento').addEventListener('input', mostrarBotonGuardar);
 document.getElementById('descripcion-evento').addEventListener('input', mostrarBotonGuardar);
 guardarBtn.addEventListener('click', guardarEvento);
 
 let tituloOriginal = '';
 let descripcionOriginal = '';
+let colorOriginal = '';
 
 async function guardarEvento() {
     const titulo = document.getElementById('titulo-evento').value;
     const descripcion = document.getElementById('descripcion-evento').value;
+    const color = document.getElementById('color-evento').value;
 
     const evento = await window.electronAPI.getEvent({ fecha: fechaSeleccionada });
 
     if (evento) {
-        await window.electronAPI.updateEvent({ titulo, fecha: fechaSeleccionada, descripcion });
+        await window.electronAPI.updateEvent({ titulo, fecha: fechaSeleccionada, descripcion, color });
         alert('Evento actualizado correctamente');
     } else {
-        await window.electronAPI.addEvent({ titulo, fecha: fechaSeleccionada, descripcion });
+        await window.electronAPI.addEvent({ titulo, fecha: fechaSeleccionada, descripcion, color });
         alert('Evento guardado correctamente');
     }
+    borrarCalendario();
+    await crearCalendario(mesEnPantalla, anioEnPantalla);
+
+    // Cierra el sidebar y limpia la selección
+    sidebar.classList.remove('active');
+    contenedorCentral.style.transform = '';
+    fechaSeleccionada = null;
 }
 
 
@@ -197,13 +222,17 @@ async function ponerContenidoEvento() {
     if (evento) {
         document.getElementById('titulo-evento').value = evento.titulo;
         document.getElementById('descripcion-evento').value = evento.descripcion || '';
+        document.getElementById('color-evento').value =evento.color || '';
         tituloOriginal = evento.titulo || '';
         descripcionOriginal = evento.descripcion || '';
+        colorOriginal = evento.color || '';
     } else {
         document.getElementById('titulo-evento').value = '';
         document.getElementById('descripcion-evento').value = '';
+        document.getElementById('color-evento').value = '#000000';
         tituloOriginal = '';
         descripcionOriginal = '';
+        colorOriginal = '#000000';
     }
     mostrarBotonGuardar();
 }

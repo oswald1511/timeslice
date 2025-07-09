@@ -13,17 +13,18 @@ db.serialize(() => {
     CREATE TABLE IF NOT EXISTS events (
       fecha TEXT PRIMARY KEY,
       titulo TEXT,
-      descripcion TEXT
+      descripcion TEXT,
+      color TEXT
     )
   `);
 });
 
 // Funciones exportadas
-function addEvent({ titulo, fecha, descripcion }) {
+function addEvent({ titulo, fecha, descripcion, color }) {
   return new Promise((resolve, reject) => {
     db.run(
-      `INSERT INTO events (titulo, fecha, descripcion) VALUES (?, ?, ?)`,
-      [titulo, fecha, descripcion],
+      `INSERT INTO events (titulo, fecha, descripcion, color) VALUES (?, ?, ?, ?)`,
+      [titulo, fecha, descripcion, color],
       function (err) {
         if (err) reject(err);
         else resolve(this.lastID);
@@ -41,11 +42,11 @@ function getEvents() {
   });
 }
 
-function updateEvent({titulo, descripcion, fecha }) {
+function updateEvent({titulo, descripcion, fecha, color }) {
   return new Promise((resolve, reject) => {
     db.run(
-      `UPDATE events SET titulo = ?, descripcion = ? WHERE fecha = ?`,
-      [titulo, descripcion, fecha],
+      `UPDATE events SET titulo = ?, descripcion = ?, color = ? WHERE fecha = ?`,
+      [titulo, descripcion, color, fecha],
       function (err) {
         if (err) reject(err);
         else resolve(this.changes); // número de filas modificadas
