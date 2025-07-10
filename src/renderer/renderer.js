@@ -200,24 +200,21 @@ async function guardarEvento() {
 
     if (evento) {
         await window.electronAPI.updateEvent({ titulo, fecha: fechaSeleccionada, descripcion, color });
-        alert('Evento actualizado correctamente');
+        //alert('Evento actualizado correctamente');
     } else {
         await window.electronAPI.addEvent({ titulo, fecha: fechaSeleccionada, descripcion, color });
-        alert('Evento guardado correctamente');
+        //alert('Evento guardado correctamente');
     }
     borrarCalendario();
     await crearCalendario(mesEnPantalla, anioEnPantalla);
-
-    // Cierra el sidebar y limpia la selección
-    sidebar.classList.remove('active');
-    contenedorCentral.style.transform = '';
-    fechaSeleccionada = null;
+    console.log(mesEnPantalla, anioEnPantalla);
 }
 
 
 
 async function ponerContenidoEvento() {
     const evento = await window.electronAPI.getEvent({ fecha: fechaSeleccionada });
+    console.log(fechaSeleccionada);
 
     if (evento) {
         document.getElementById('titulo-evento').value = evento.titulo;
